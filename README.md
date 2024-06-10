@@ -59,7 +59,3 @@ This project is licensed under the terms of the MIT license. See the [LICENSE](L
 ## Contributing
 
 We welcome contributions!
-
----
-
-© 2023 Your Company. All Rights Reserved.
