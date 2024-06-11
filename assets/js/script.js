@@ -8,6 +8,7 @@ $(document).ready(function () {
   const decryptionKeyInput = $("#decryptionKey");
   const decryptButton = $("#decryptButton");
   const modeSwitch = $("#modeSwitch");
+  const sliderIcon = $("ion-icon");
 
   let filesToEncrypt = [];
   let filesToDecrypt = [];
@@ -131,11 +132,13 @@ $(document).ready(function () {
   // Mode switch functionality
   modeSwitch.on("change", function () {
     $("body").toggleClass("dark-mode", this.checked);
+    updateSliderIcon();
   });
 
   // Set dark mode by default
   $("body").addClass("dark-mode");
   modeSwitch.prop("checked", true);
+  updateSliderIcon();
 
   // Helper functions
   async function getKeyMaterial(password) {
@@ -156,5 +159,13 @@ $(document).ready(function () {
       true,
       ["encrypt", "decrypt"]
     );
+  }
+
+  function updateSliderIcon() {
+    if (modeSwitch.is(":checked")) {
+      sliderIcon.removeClass("ion-md-sunny").addClass("ion-md-moon");
+    } else {
+      sliderIcon.removeClass("ion-md-moon").addClass("ion-md-sunny");
+    }
   }
 });
