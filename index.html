@@ -1,81 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- HTML Meta Tags -->
-    <title>Encrypteur de texte</title>
-    <meta name="description" content="タイマー" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    <link rel="shortcut icon" href="/geijutsu/assets/img/favicon.png" type="image/x-icon" />
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fdf6f3" />
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111111" />
-    <link rel="manifest" href="/manifest.json" />
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-    <meta name="googlebot-news" content="nosnippet" />
-    <meta name="robots" content="noindex" />
-
-    <!-- Google / Search Engine Tags -->
-    <meta itemprop="name" content="タイマー" />
-    <meta itemprop="description" content="タイマー" />
-    <meta itemprop="image" content="assets/img/favicon-big.png" />
-
-    <!-- Facebook Meta Tags -->
-    <meta property="og:url" content="https://kngw.xyz" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="タイマー" />
-    <meta property="og:description" content="タイマー" />
-    <meta property="og:image" content="assets/img/favicon-big.png" />
-
-    <!-- Twitter Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="タイマー" />
-    <meta name="twitter:description" content="タイマー" />
-    <meta name="twitter:image" content="assets/img/favicon-big.png" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="/geijutsu/assets/css/dark.css" id="darkmodestylesheet" />
-    <link rel="stylesheet" href="../assets/css/common.css" />
-    <link rel="stylesheet" href="../assets/css/context-menu.css" />
-    <link rel="stylesheet" href="../assets/css/scrollbar.css" />
-    <link rel="stylesheet" href="../assets/css/preloader.css" />
-    <link rel="stylesheet" href="assets/css/styles.css" />
-
-    <!-- JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script defer src="assets/js/script.js"></script>
-    <script defer src="/assets/js/common.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-  </head>
-
-  <body>
-    <!-- PRELOADER  -->
-    <div id="preloader">
-      <p class="preloader-waiting">ロード..</p>
-      <div class="preload-count-container">
-        <p class="number colored-text"></p>
-        <span class="colored-text">%</span>
-      </div>
-    </div>
-
-    <!-- Context Menu -->
-    <div class="context-menu">
-      <a data-url="/geijutsu/">ホーム</a>
-      <a data-url="">タイマー</a>
-      <a class="buttonDarkModeText"></a>
-    </div>
-
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Encryptor</title>
+    <link rel="stylesheet" href="assets/css/script.css">
+</head>
+<body>
     <div class="container">
-      <h2>Encrypteur de texte</h2>
-      <input type="text" id="customKey" placeholder="Entrez votre clé custom" />
-      <textarea id="textToEncrypt" rows="5" placeholder="Entrez le texte à encrypter"></textarea>
-      <button id="encryptButton">Encrypter</button>
-      <button id="decryptButton">Décrypter</button>
-      <div id="encryptedTextContainer" style="display: none">
-        <h3 id="encryptedTextLabel">Texte encrypté:</h3>
-        <textarea id="encryptedText" rows="5" readonly></textarea>
-      </div>
+        <h1>File Encryptor</h1>
+        <div id="drop-zone" class="drop-zone">
+            <p>Drag & Drop files here to encrypt</p>
+            <input type="file" id="fileInput" multiple hidden>
+        </div>
+        <button id="encryptButton">Encrypt</button>
+        <textarea id="encryptionKey" placeholder="Encryption key will appear here" readonly></textarea>
+
+        <h2>Decrypt Files</h2>
+        <input type="file" id="decryptFileInput" multiple>
+        <input type="text" id="decryptionKey" placeholder="Enter encryption key">
+        <button id="decryptButton">Decrypt</button>
     </div>
-  </body>
+    <script src="assets/js/script.js"></script>
+</body>
 </html>
