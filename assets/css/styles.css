@@ -116,24 +116,22 @@ body.dark-mode .drop-zone p {
   border-radius: 34px;
 }
 
-.slider:before {
+.slider ion-icon {
   position: absolute;
-  content: "";
-  height: 26px;
-  width: 26px;
+  top: 50%;
   left: 4px;
-  bottom: 4px;
-  background-color: white;
+  transform: translateY(-50%);
+  font-size: 26px;
   transition: 0.4s;
-  border-radius: 50%;
+  color: white;
 }
 
 input:checked + .slider {
   background-color: #007bff;
 }
 
-input:checked + .slider:before {
-  transform: translateX(26px);
+input:checked + .slider ion-icon {
+  transform: translateY(-50%) translateX(26px);
 }
 
 /* Icon styles */
@@ -141,10 +139,4 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.slider.round ion-icon {
-  font-size: 20px;
-  display: block;
-  color: white;
 }
