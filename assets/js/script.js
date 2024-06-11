@@ -35,12 +35,16 @@ $(document).ready(function () {
   });
 
   dropZone.on("click", function () {
-    fileInput.trigger("click");
+    if (!fileInput.data("triggered")) {
+      fileInput.data("triggered", true);
+      fileInput.trigger("click");
+    }
   });
 
   fileInput.on("change", function () {
     filesToEncrypt = this.files;
     updateDropZoneText(dropZone, "Files uploaded");
+    fileInput.data("triggered", false);
   });
 
   dropZoneDecrypt.on("dragover", function (event) {
@@ -60,12 +64,16 @@ $(document).ready(function () {
   });
 
   dropZoneDecrypt.on("click", function () {
-    decryptFileInput.trigger("click");
+    if (!decryptFileInput.data("triggered")) {
+      decryptFileInput.data("triggered", true);
+      decryptFileInput.trigger("click");
+    }
   });
 
   decryptFileInput.on("change", function () {
     filesToDecrypt = this.files;
     updateDropZoneText(dropZoneDecrypt, "Files uploaded");
+    decryptFileInput.data("triggered", false);
   });
 
   encryptButton.on("click", async function () {
@@ -167,7 +175,7 @@ $(document).ready(function () {
   // Helper functions
   async function deriveKey(password) {
     const enc = new TextEncoder();
-    const keyMaterial = await window.crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveBits", "deriveKey"]);
+    const keyMaterial = await window.crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveKey"]);
 
     return window.crypto.subtle.deriveKey(
       {
