@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('fileInput');
   const encryptButton = document.getElementById('encryptButton');
-  const encryptionKeyTextArea = document.getElementById('encryptionKey');
+  const encryptionPasswordInput = document.getElementById('encryptionPassword');
   const decryptFileInput = document.getElementById('decryptFileInput');
   const decryptionKeyInput = document.getElementById('decryptionKey');
   const decryptButton = document.getElementById('decryptButton');
@@ -39,25 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
       }
 
-      const key = await window.crypto.subtle.generateKey(
-          {
-              name: "AES-GCM",
-              length: 256,
-          },
-          true,
-          ["encrypt", "decrypt"]
-      );
+      const password = encryptionPasswordInput.value;
+      if (!password) {
+          alert('Please enter an encryption password');
+          return;
+      }
 
-      const exportedKey = await window.crypto.subtle.exportKey(
-          "raw",
-          key
-      );
-
-      const keyString = Array.from(new Uint8Array(exportedKey))
-          .map(b => b.toString(16).padStart(2, '0'))
-          .join('');
-
-      encryptionKeyTextArea.value = keyString;
+      const keyMaterial = await getKeyMaterial(password);
+      const key = await getKey(keyMaterial);
 
       for (const file of filesToEncrypt) {
           const fileBuffer = await file.arrayBuffer();
@@ -81,23 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   decryptButton.addEventListener('click', async () => {
-      const decryptionKeyString = decryptionKeyInput.value;
-      if (decryptFileInput.files.length === 0 || !decryptionKeyString) {
-          alert('Please select files to decrypt and enter the decryption key');
+      const password = decryptionKeyInput.value;
+      if (decryptFileInput.files.length === 0 || !password) {
+          alert('Please select files to decrypt and enter the encryption password');
           return;
       }
 
-      const decryptionKey = new Uint8Array(decryptionKeyString.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
-
-      const key = await window.crypto.subtle.importKey(
-          "raw",
-          decryptionKey,
-          {
-              name: "AES-GCM"
-          },
-          true,
-          ["decrypt"]
-      );
+      const keyMaterial = await getKeyMaterial(password);
+      const key = await getKey(keyMaterial);
 
       for (const file of decryptFileInput.files) {
           const fileBuffer = await file.arrayBuffer();
@@ -120,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
               link.download = file.name.replace('.encrypted', '');
               link.click();
           } catch (error) {
-              alert('Decryption failed. Please check the key and try again.');
+              alert('Decryption failed. Please check the password and try again.');
           }
       }
   });
@@ -133,4 +113,31 @@ document.addEventListener('DOMContentLoaded', () => {
   // Set dark mode by default
   document.body.classList.add('dark-mode');
   modeSwitch.checked = true;
+
+  // Helper functions
+  async function getKeyMaterial(password) {
+      const enc = new TextEncoder();
+      return window.crypto.subtle.importKey(
+          "raw",
+          enc.encode(password),
+          { name: "PBKDF2" },
+          false,
+          ["deriveKey"]
+      );
+  }
+
+  async function getKey(keyMaterial) {
+      return window.crypto.subtle.deriveKey(
+          {
+              name: "PBKDF2",
+              salt: new TextEncoder().encode("some-salt"),
+              iterations: 100000,
+              hash: "SHA-256"
+          },
+          keyMaterial,
+          { name: "AES-GCM", length: 256 },
+          true,
+          ["encrypt", "decrypt"]
+      );
+  }
 });

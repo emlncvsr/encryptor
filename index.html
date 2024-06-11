@@ -19,12 +19,12 @@
             <p>Drag & Drop files here to encrypt</p>
             <input type="file" id="fileInput" multiple hidden>
         </div>
+        <input type="text" id="encryptionPassword" placeholder="Enter encryption password">
         <button id="encryptButton">Encrypt</button>
-        <textarea id="encryptionKey" placeholder="Encryption key will appear here" readonly></textarea>
 
         <h2>Decrypt Files</h2>
         <input type="file" id="decryptFileInput" multiple>
-        <input type="text" id="decryptionKey" placeholder="Enter encryption key">
+        <input type="text" id="decryptionKey" placeholder="Enter encryption password">
         <button id="decryptButton">Decrypt</button>
     </div>
     <script src="assets/js/script.js"></script>
