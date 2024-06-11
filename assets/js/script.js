@@ -163,9 +163,9 @@ $(document).ready(function () {
 
   function updateSliderIcon() {
     if (modeSwitch.is(":checked")) {
-      sliderIcon.removeClass("ion-md-sunny").addClass("ion-md-moon");
+      sliderIcon.attr("name", "contrast-outline");
     } else {
-      sliderIcon.removeClass("ion-md-moon").addClass("ion-md-sunny");
+      sliderIcon.attr("name", "contrast");
     }
   }
 });
