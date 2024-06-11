@@ -13,6 +13,11 @@ $(document).ready(function () {
   let filesToEncrypt = [];
   let filesToDecrypt = [];
 
+  if (!window.crypto || !window.crypto.subtle) {
+    alert("Web Crypto API is not supported in this browser");
+    return;
+  }
+
   dropZone.on("dragover", function (event) {
     event.preventDefault();
     $(this).addClass("dragover");
@@ -26,14 +31,16 @@ $(document).ready(function () {
     event.preventDefault();
     $(this).removeClass("dragover");
     filesToEncrypt = event.originalEvent.dataTransfer.files;
+    updateDropZoneText($(this), "Files uploaded");
   });
 
   dropZone.on("click", function () {
-    fileInput.click();
+    fileInput.trigger("click");
   });
 
   fileInput.on("change", function () {
     filesToEncrypt = this.files;
+    updateDropZoneText(dropZone, "Files uploaded");
   });
 
   dropZoneDecrypt.on("dragover", function (event) {
@@ -49,14 +56,16 @@ $(document).ready(function () {
     event.preventDefault();
     $(this).removeClass("dragover");
     filesToDecrypt = event.originalEvent.dataTransfer.files;
+    updateDropZoneText($(this), "Files uploaded");
   });
 
   dropZoneDecrypt.on("click", function () {
-    decryptFileInput.click();
+    decryptFileInput.trigger("click");
   });
 
   decryptFileInput.on("change", function () {
     filesToDecrypt = this.files;
+    updateDropZoneText(dropZoneDecrypt, "Files uploaded");
   });
 
   encryptButton.on("click", async function () {
@@ -71,27 +80,35 @@ $(document).ready(function () {
       return;
     }
 
-    const keyMaterial = await getKeyMaterial(password);
-    const key = await getKey(keyMaterial);
+    try {
+      const key = await deriveKey(password);
 
-    for (const file of filesToEncrypt) {
-      const fileBuffer = await file.arrayBuffer();
-      const iv = window.crypto.getRandomValues(new Uint8Array(12));
+      for (const file of filesToEncrypt) {
+        const fileBuffer = await file.arrayBuffer();
+        const iv = window.crypto.getRandomValues(new Uint8Array(12));
 
-      const encryptedContent = await window.crypto.subtle.encrypt(
-        {
-          name: "AES-GCM",
-          iv: iv,
-        },
-        key,
-        fileBuffer
-      );
+        const encryptedContent = await window.crypto.subtle.encrypt(
+          {
+            name: "AES-GCM",
+            iv: iv,
+          },
+          key,
+          fileBuffer
+        );
 
-      const encryptedBlob = new Blob([iv, new Uint8Array(encryptedContent)], { type: "application/octet-stream" });
-      const link = $("<a></a>")
-        .attr("href", URL.createObjectURL(encryptedBlob))
-        .attr("download", file.name + ".encrypted");
-      link[0].click();
+        const encryptedBlob = new Blob([iv, new Uint8Array(encryptedContent)], {
+          type: "application/octet-stream",
+        });
+        const link = $("<a></a>")
+          .attr("href", URL.createObjectURL(encryptedBlob))
+          .attr("download", file.name + ".encrypted")
+          .appendTo("body");
+        link[0].click();
+        link.remove();
+      }
+    } catch (error) {
+      console.error("Encryption failed", error);
+      alert("Encryption failed. Please check the console for more details.");
     }
   });
 
@@ -102,30 +119,37 @@ $(document).ready(function () {
       return;
     }
 
-    const keyMaterial = await getKeyMaterial(password);
-    const key = await getKey(keyMaterial);
+    try {
+      const key = await deriveKey(password);
 
-    for (const file of filesToDecrypt) {
-      const fileBuffer = await file.arrayBuffer();
-      const iv = fileBuffer.slice(0, 12);
-      const data = fileBuffer.slice(12);
+      for (const file of filesToDecrypt) {
+        const fileBuffer = await file.arrayBuffer();
+        const iv = fileBuffer.slice(0, 12);
+        const data = fileBuffer.slice(12);
 
-      try {
-        const decryptedContent = await window.crypto.subtle.decrypt(
-          {
-            name: "AES-GCM",
-            iv: iv,
-          },
-          key,
-          data
-        );
+        try {
+          const decryptedContent = await window.crypto.subtle.decrypt(
+            {
+              name: "AES-GCM",
+              iv: iv,
+            },
+            key,
+            data
+          );
 
-        const decryptedBlob = new Blob([decryptedContent], { type: "application/octet-stream" });
-        const link = $("<a></a>").attr("href", URL.createObjectURL(decryptedBlob)).attr("download", file.name.replace(".encrypted", ""));
-        link[0].click();
-      } catch (error) {
-        alert("Decryption failed. Please check the password and try again.");
+          const decryptedBlob = new Blob([decryptedContent], {
+            type: "application/octet-stream",
+          });
+          const link = $("<a></a>").attr("href", URL.createObjectURL(decryptedBlob)).attr("download", file.name.replace(".encrypted", "")).appendTo("body");
+          link[0].click();
+          link.remove();
+        } catch (error) {
+          alert("Decryption failed. Please check the password and try again.");
+        }
       }
+    } catch (error) {
+      console.error("Decryption failed", error);
+      alert("Decryption failed. Please check the console for more details.");
     }
   });
 
@@ -141,16 +165,14 @@ $(document).ready(function () {
   updateSwitchIcon();
 
   // Helper functions
-  async function getKeyMaterial(password) {
+  async function deriveKey(password) {
     const enc = new TextEncoder();
-    return window.crypto.subtle.importKey("raw", enc.encode(password), { name: "PBKDF2" }, false, ["deriveKey"]);
-  }
+    const keyMaterial = await window.crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveBits", "deriveKey"]);
 
-  async function getKey(keyMaterial) {
     return window.crypto.subtle.deriveKey(
       {
         name: "PBKDF2",
-        salt: new TextEncoder().encode("some-salt"),
+        salt: enc.encode("some-salt"),
         iterations: 100000,
         hash: "SHA-256",
       },
@@ -163,9 +185,14 @@ $(document).ready(function () {
 
   function updateSwitchIcon() {
     if (modeSwitch.is(":checked")) {
-      switchIcon.attr("name", "contrast");
+      switchIcon.attr("name", "moon-outline");
     } else {
-      switchIcon.attr("name", "contrast-outline");
+      switchIcon.attr("name", "sunny-outline");
     }
+  }
+
+  function updateDropZoneText(dropZoneElement, message) {
+    dropZoneElement.find("p").text(message).css("color", "green");
+    dropZoneElement.css("border-color", "green");
   }
 });
