@@ -163,9 +163,9 @@ $(document).ready(function () {
 
   function updateSwitchIcon() {
     if (modeSwitch.is(":checked")) {
-      switchIcon.attr("name", "moon-outline");
+      switchIcon.attr("name", "contrast");
     } else {
-      switchIcon.attr("name", "sunny-outline");
+      switchIcon.attr("name", "contrast-outline");
     }
   }
 });
