@@ -1,70 +1,70 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const dropZone = document.getElementById("drop-zone");
-  const dropZoneDecrypt = document.getElementById("drop-zone-decrypt");
-  const fileInput = document.getElementById("fileInput");
-  const decryptFileInput = document.getElementById("decryptFileInput");
-  const encryptButton = document.getElementById("encryptButton");
-  const encryptionPasswordInput = document.getElementById("encryptionPassword");
-  const decryptionKeyInput = document.getElementById("decryptionKey");
-  const decryptButton = document.getElementById("decryptButton");
-  const modeSwitch = document.getElementById("modeSwitch");
+$(document).ready(function () {
+  const dropZone = $("#drop-zone");
+  const dropZoneDecrypt = $("#drop-zone-decrypt");
+  const fileInput = $("#fileInput");
+  const decryptFileInput = $("#decryptFileInput");
+  const encryptButton = $("#encryptButton");
+  const encryptionPasswordInput = $("#encryptionPassword");
+  const decryptionKeyInput = $("#decryptionKey");
+  const decryptButton = $("#decryptButton");
+  const modeSwitch = $("#modeSwitch");
 
   let filesToEncrypt = [];
   let filesToDecrypt = [];
 
-  dropZone.addEventListener("dragover", (event) => {
+  dropZone.on("dragover", function (event) {
     event.preventDefault();
-    dropZone.classList.add("dragover");
+    $(this).addClass("dragover");
   });
 
-  dropZone.addEventListener("dragleave", () => {
-    dropZone.classList.remove("dragover");
+  dropZone.on("dragleave", function () {
+    $(this).removeClass("dragover");
   });
 
-  dropZone.addEventListener("drop", (event) => {
+  dropZone.on("drop", function (event) {
     event.preventDefault();
-    dropZone.classList.remove("dragover");
-    filesToEncrypt = event.dataTransfer.files;
+    $(this).removeClass("dragover");
+    filesToEncrypt = event.originalEvent.dataTransfer.files;
   });
 
-  dropZone.addEventListener("click", () => {
+  dropZone.on("click", function () {
     fileInput.click();
   });
 
-  fileInput.addEventListener("change", () => {
-    filesToEncrypt = fileInput.files;
+  fileInput.on("change", function () {
+    filesToEncrypt = this.files;
   });
 
-  dropZoneDecrypt.addEventListener("dragover", (event) => {
+  dropZoneDecrypt.on("dragover", function (event) {
     event.preventDefault();
-    dropZoneDecrypt.classList.add("dragover");
+    $(this).addClass("dragover");
   });
 
-  dropZoneDecrypt.addEventListener("dragleave", () => {
-    dropZoneDecrypt.classList.remove("dragover");
+  dropZoneDecrypt.on("dragleave", function () {
+    $(this).removeClass("dragover");
   });
 
-  dropZoneDecrypt.addEventListener("drop", (event) => {
+  dropZoneDecrypt.on("drop", function (event) {
     event.preventDefault();
-    dropZoneDecrypt.classList.remove("dragover");
-    filesToDecrypt = event.dataTransfer.files;
+    $(this).removeClass("dragover");
+    filesToDecrypt = event.originalEvent.dataTransfer.files;
   });
 
-  dropZoneDecrypt.addEventListener("click", () => {
+  dropZoneDecrypt.on("click", function () {
     decryptFileInput.click();
   });
 
-  decryptFileInput.addEventListener("change", () => {
-    filesToDecrypt = decryptFileInput.files;
+  decryptFileInput.on("change", function () {
+    filesToDecrypt = this.files;
   });
 
-  encryptButton.addEventListener("click", async () => {
+  encryptButton.on("click", async function () {
     if (filesToEncrypt.length === 0) {
       alert("Please select files to encrypt");
       return;
     }
 
-    const password = encryptionPasswordInput.value;
+    const password = encryptionPasswordInput.val();
     if (!password) {
       alert("Please enter an encryption password");
       return;
@@ -87,15 +87,15 @@ document.addEventListener("DOMContentLoaded", () => {
       );
 
       const encryptedBlob = new Blob([iv, new Uint8Array(encryptedContent)], { type: "application/octet-stream" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(encryptedBlob);
-      link.download = file.name + ".encrypted";
-      link.click();
+      const link = $("<a></a>")
+        .attr("href", URL.createObjectURL(encryptedBlob))
+        .attr("download", file.name + ".encrypted");
+      link[0].click();
     }
   });
 
-  decryptButton.addEventListener("click", async () => {
-    const password = decryptionKeyInput.value;
+  decryptButton.on("click", async function () {
+    const password = decryptionKeyInput.val();
     if (filesToDecrypt.length === 0 || !password) {
       alert("Please select files to decrypt and enter the encryption password");
       return;
@@ -120,10 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
         );
 
         const decryptedBlob = new Blob([decryptedContent], { type: "application/octet-stream" });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(decryptedBlob);
-        link.download = file.name.replace(".encrypted", "");
-        link.click();
+        const link = $("<a></a>").attr("href", URL.createObjectURL(decryptedBlob)).attr("download", file.name.replace(".encrypted", ""));
+        link[0].click();
       } catch (error) {
         alert("Decryption failed. Please check the password and try again.");
       }
@@ -131,13 +129,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Mode switch functionality
-  modeSwitch.addEventListener("change", () => {
-    document.body.classList.toggle("dark-mode", modeSwitch.checked);
+  modeSwitch.on("change", function () {
+    $("body").toggleClass("dark-mode", this.checked);
   });
 
   // Set dark mode by default
-  document.body.classList.add("dark-mode");
-  modeSwitch.checked = true;
+  $("body").addClass("dark-mode");
+  modeSwitch.prop("checked", true);
 
   // Helper functions
   async function getKeyMaterial(password) {
