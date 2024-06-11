@@ -1,61 +1,81 @@
 
-# Basic File Encryptor
+# 🌙🔒 File Encryptor
 
-Welcome to the GitHub repository for our Encryptor. This project allows users to upload files and receive an encrypted version along with an encryption key. The tool also supports decryption of the encrypted files using the provided key.
+This project is a simple file encryptor and decryptor that runs entirely in the browser. Users can drag and drop files to encrypt or decrypt them using a password they provide. The application supports both light and dark modes, and it uses the Web Cryptography API for secure encryption and decryption.
 
 ## Features
 
-- **File Encryption**: Upload a file to get an encrypted version along with an encryption key.
-- **File Decryption**: Upload an encrypted file along with the encryption key to get the original file back.
-- **Secure**: Uses robust encryption algorithms to ensure the security of your files.
+- 🌑 **Dark Mode by Default**: Toggle between dark and light modes with a simple switch.
+- 🖱 **Drag and Drop**: Easily drag and drop files to encrypt or decrypt.
+- 🔑 **Password Protection**: Enter a password to secure your files.
+- 🔒 **Client-Side Encryption**: All encryption and decryption is done locally in the browser, ensuring your files never leave your device.
 
 ## Getting Started
 
+To get started with the File Encryptor, follow these simple steps:
+
 ### Prerequisites
 
-- Python 3.x
-- `cryptography` library
+- A modern web browser that supports the Web Cryptography API.
 
 ### Installation
 
-1. Clone the repository:
-    ```bash
-    git clone https://github.com/emlncvsr/encryptor.git
-    cd encryptor
-    ```
-
-2. Install dependencies:
-    ```bash
-    pip install -r requirements.txt
-    ```
+1. Clone this repository to your local machine:
+   ```bash
+   git clone https://github.com/emlncvsr/encryptor.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd file-encryptor
+   ```
+3. Open the `index.html` file in your web browser to start using the encryptor.
 
 ### Usage
 
-1. **Encrypt a File**:
-    ```bash
-    python encrypt.py --input yourfile.txt --output encryptedfile.enc --keyfile keyfile.key
-    ```
-    - `--input`: Path to the file to be encrypted.
-    - `--output`: Path where the encrypted file will be saved.
-    - `--keyfile`: Path where the encryption key will be saved.
+1. **Encrypt Files**:
+   - Drag and drop files into the "Drag & Drop files here to encrypt" area.
+   - Enter a password in the "Enter encryption password" field.
+   - Click the "Encrypt" button.
+   - Download the encrypted files.
 
-2. **Decrypt a File**:
-    ```bash
-    python decrypt.py --input encryptedfile.enc --output decryptedfile.txt --keyfile keyfile.key
-    ```
-    - `--input`: Path to the encrypted file.
-    - `--output`: Path where the decrypted file will be saved.
-    - `--keyfile`: Path to the encryption key file.
+2. **Decrypt Files**:
+   - Drag and drop files into the "Drag & Drop files here to decrypt" area.
+   - Enter the password used for encryption in the "Enter encryption password" field.
+   - Click the "Decrypt" button.
+   - Download the decrypted files.
+
+## Project Structure
+
+```
+file-encryptor/
+│
+├── index.html
+├── assets/
+│   ├── css/
+│   │   └── styles.css
+│   └── js/
+│       └── script.js
+└── README.md
+```
 
 ## Technologies Used
 
-- **Backend**: Python
-- **Encryption Library**: cryptography
-
-## License
-
-This project is licensed under the terms of the MIT license. See the [LICENSE](LICENSE) file for details.
+- HTML5
+- CSS3
+- JavaScript
+- jQuery
+- Ionicons
+- Web Cryptography API
 
 ## Contributing
 
-We welcome contributions!
+Contributions are welcome! Please feel free to submit a pull request or open an issue if you have any suggestions or improvements.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## Acknowledgments
+
+- Thanks to the creators of [Ionicons](https://ionicons.com/) for the beautiful icons.
+- Inspired by various file encryption tools and web applications.
