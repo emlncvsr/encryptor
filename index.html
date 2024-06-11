@@ -1,38 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>File Encryptor</title>
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css" />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon">
-</head>
-<body class="dark-mode">
+    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  </head>
+  <body class="dark-mode">
     <div class="container">
-        <h1>File Encryptor</h1>
-        <div class="switch-container">
-            <label class="switch">
-              Dark Mode
-                <input type="checkbox" id="modeSwitch" checked>
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <div id="drop-zone" class="drop-zone">
-            <p>Drag & Drop files here to encrypt</p>
-            <input type="file" id="fileInput" multiple hidden>
-        </div>
-        <input type="text" id="encryptionPassword" placeholder="Enter encryption password">
-        <button id="encryptButton">Encrypt</button>
+      <h1>File Encryptor</h1>
+      <div class="switch-container">
+        <label class="switch">
+          Dark Mode
+          <input type="checkbox" id="modeSwitch" checked />
+          <span class="slider round"></span>
+        </label>
+      </div>
+      <div id="drop-zone" class="drop-zone">
+        <p>Drag & Drop files here to encrypt</p>
+        <input type="file" id="fileInput" multiple hidden />
+      </div>
+      <input type="text" id="encryptionPassword" placeholder="Enter encryption password" />
+      <button id="encryptButton">Encrypt</button>
 
-        <h2>Decrypt Files</h2>
-        <div id="drop-zone-decrypt" class="drop-zone">
-            <p>Drag & Drop files here to decrypt</p>
-            <input type="file" id="decryptFileInput" multiple hidden>
-        </div>
-        <input type="text" id="decryptionKey" placeholder="Enter encryption password">
-        <button id="decryptButton">Decrypt</button>
+      <h2>Decrypt Files</h2>
+      <div id="drop-zone-decrypt" class="drop-zone">
+        <p>Drag & Drop files here to decrypt</p>
+        <input type="file" id="decryptFileInput" multiple hidden />
+      </div>
+      <input type="text" id="decryptionKey" placeholder="Enter encryption password" />
+      <button id="decryptButton">Decrypt</button>
     </div>
     <script src="assets/js/script.js"></script>
-</body>
+  </body>
 </html>
