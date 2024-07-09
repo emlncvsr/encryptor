@@ -161,17 +161,6 @@ $(document).ready(function () {
     }
   });
 
-  // Mode switch functionality
-  modeSwitch.on("change", function () {
-    $("body").toggleClass("dark-mode", this.checked);
-    updateSwitchIcon();
-  });
-
-  // Set dark mode by default
-  $("body").addClass("dark-mode");
-  modeSwitch.prop("checked", true);
-  updateSwitchIcon();
-
   // Helper functions
   async function deriveKey(password) {
     const enc = new TextEncoder();

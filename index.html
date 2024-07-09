@@ -1,34 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>File Encryptor</title>
-    <link rel="stylesheet" href="assets/css/styles.css" />
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
-  </head>
-  <body class="dark-mode">
-    <div class="container">
-      <h1>File Encryptor</h1>
-      <div class="switch-container">
-        <label class="switch">
-          <input type="checkbox" id="modeSwitch" checked />
-          <span class="slider round">
-            <ion-icon id="switchIcon" name="contrast"></ion-icon>
-          </span>
-        </label>
-      </div>
+<html lang="en" notranslate translate="no">
+
+<head>
+  <!-- HTML Meta Tags -->
+  <title>File Encryptor/Decryptor</title>
+  <meta name="description" content="File Encryptor/Decryptor" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+  <link rel="shortcut icon" href="assets/img/favicon.png" type="image/x-icon" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#fdf6f3" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#111111" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+  <meta name="googlebot-news" content="nosnippet" />
+  <meta name="robots" content="noindex" />
+
+  <!-- Google / Search Engine Tags -->
+  <meta itemprop="name" content="File Encryptor/Decryptor" />
+  <meta itemprop="description" content="File Encryptor/Decryptor" />
+  <meta itemprop="image" content="assets/img/screenshot-desktop.jpg" />
+
+  <!-- Facebook Meta Tags -->
+  <meta property="og:url" content="https://emlncvsr.github.io/encryptor" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="File Encryptor/Decryptor" />
+  <meta property="og:description" content="File Encryptor/Decryptor" />
+  <meta property="og:image" content="assets/img/screenshot-desktop.jpg" />
+
+  <!-- Twitter Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="File Encryptor/Decryptor" />
+  <meta name="twitter:description" content="File Encryptor/Decryptor" />
+  <meta name="twitter:image" content="assets/img/screenshot-desktop.jpg" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- JS -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script defer src="assets/js/preloader.js"></script>
+  <script defer src="assets/js/darkmode.js"></script>
+  <script defer src="assets/js/script.js"></script>
+  <script defer src="assets/js/common.js"></script>
+  <script defer src="assets/js/context-menu.js"></script>
+  <script type="module" crossorigin="anonymous"
+    src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="assets/css/dark.css" id="darkmodestylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/common.css" />
+</head>
+
+<body class="dark-mode">
+  <!-- PRELOADER  -->
+  <div id="preloader">
+    <p class="preloader-waiting">ロード..</p>
+    <div class="preload-count-container">
+      <p class="number colored-text"></p>
+      <span class="colored-text">%</span>
+    </div>
+  </div>
+
+  <!-- Context Menu -->
+  <div class="context-menu">
+    <a data-url="/">ホーム</a>
+    <a class="buttonDarkModeText"></a>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <a data-url="" class="logo"></a>
+    <nav>
+      <ion-icon class="buttonDarkMode" title="Dark Mode Button"></ion-icon>
+    </nav>
+  </header>
+
+  <!-- App -->
+  <div id="app">
+    <div id="encrypt">
+      <h2>Encrypt</h2>
       <div id="drop-zone" class="drop-zone">
         <p>Drag & Drop files here to encrypt</p>
         <input type="file" id="fileInput" multiple hidden />
       </div>
-      <input type="text" id="encryptionPassword" placeholder="Enter encryption password" />
+      <input type="text" id="encryptionPassword" placeholder="Enter encryption password" autocomplete="off" />
       <button id="encryptButton">Encrypt</button>
+    </div>
 
-      <h2>Decrypt Files</h2>
+    <div id="decrypt">
+      <h2>Decrypt</h2>
       <div id="drop-zone-decrypt" class="drop-zone">
         <p>Drag & Drop files here to decrypt</p>
         <input type="file" id="decryptFileInput" multiple hidden />
@@ -36,6 +98,9 @@
       <input type="text" id="decryptionKey" placeholder="Enter encryption password" />
       <button id="decryptButton">Decrypt</button>
     </div>
-    <script src="assets/js/script.js"></script>
-  </body>
+  </div>
+
+  <div id="main-button" data-url="/">トップ</div>
+</body>
+
 </html>
